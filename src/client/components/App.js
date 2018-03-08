@@ -7,7 +7,7 @@ export default function App() {
     <div>
       <Users />
       <hr />
-      <User id={1} />
+      {/* <User id={1} /> */}
     </div>
   )
 }

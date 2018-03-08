@@ -5,13 +5,15 @@ import {userQuery} from '../data/queries'
 
 class User extends Component {
   render() {
-    const {data: {loading, user}} = this.props
+    const {data: {loading, user1}} = this.props
+    console.log(this.props)
+    return null
     if (loading) {
       return null
     }
     return (
       <div>
-        {user.firstName} {user.lastName}
+        {user1.firstName} {user1.lastName}
       </div>
     )
   }

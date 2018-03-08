@@ -19,8 +19,8 @@ export const usersQuery = gql`
 `
 
 export const userQuery = gql`
-  query user($id: Int){
-    user(id: $id) {
+  query user($id: Int) {
+    user1: user(id: $id) {
       id
       firstName
       lastName

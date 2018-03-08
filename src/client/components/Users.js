@@ -11,7 +11,7 @@ class Users extends Component {
     }
     return (
       <div>
-        {users.map(user=> <div>{user.firstName} {user.lastName}</div>)}
+        {users.map(user=> <div key={user.id}>{user.firstName} {user.lastName}</div>)}
       </div>
     )
   }

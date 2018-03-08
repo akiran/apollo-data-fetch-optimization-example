@@ -5,6 +5,7 @@ import { ApolloLink } from "apollo-link"
 import localStateResolvers from './local-state/resolvers'
 import localStateDefaults from './local-state/defaults'
 import { withClientState } from 'apollo-link-state'
+import { createCacheLink } from './cache-link'
 
 const cache = new InMemoryCache()
 
@@ -14,12 +15,25 @@ const stateLink = withClientState({
   defaults: localStateDefaults
 });
 
+const cacheLink = createCacheLink({
+  cache
+})
+
+const link = ApolloLink.from([
+  cacheLink,
+  stateLink,
+  new HttpLink()
+])
+
 const client = new ApolloClient({
   cache,
-  link: ApolloLink.from([
-    stateLink,
-    new HttpLink()
-  ]),
+  link
 });
+
+// client.subscribe((data) => {
+//   console.log('subscribe', data)
+// })
+
+console.log(client)
 
 export default client
