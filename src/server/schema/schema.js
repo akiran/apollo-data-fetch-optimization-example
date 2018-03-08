@@ -6,7 +6,8 @@ export default `
   }
 
   type Query {
-    user: User,
+    user(id: Int): User,
+    users: [User]
   }
 
   schema {
