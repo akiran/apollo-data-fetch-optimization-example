@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import gql from 'graphql-tag'
 import {graphql} from 'react-apollo'
-import {usersQuery} from '../data/queries'
+import User from './User'
 
 class Users extends Component {
   render() {
@@ -9,13 +9,24 @@ class Users extends Component {
     if (loading) {
       return null
     }
+    console.log(users)
     return (
       <div>
-        {users.map(user=> <div key={user.id}>{user.firstName} {user.lastName}</div>)}
+        {users.map(user=> <User key={user.id} id={user.id} />)}
+        {/* {users.map(user=> <div key={user.id}>{user.firstName}</div>)} */}
       </div>
     )
   }
 }
 
+const usersQuery = gql`
+  query usersQuery {
+    users {
+      id
+      firstName
+      lastName
+    }
+  }
+`
 
 export default graphql(usersQuery)(Users);

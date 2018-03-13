@@ -1,12 +1,11 @@
 import gql from 'graphql-tag'
 import {ApolloLink, Observable} from 'apollo-link';
-import { graphql } from 'graphql-anywhere/lib/async';
 
 function getQuery(users) {
   const userFields = users.reduce((acc, user) => {
     return `
       ${acc}
-      user${user.id}: user(id: ${user.id}) {
+      user${user.id}: user(id: "${user.id}") {
         id
         firstName
         lastName
@@ -30,16 +29,19 @@ export function createCacheLink(config) {
         const observerErrorHandler = observer.error.bind(observer);
         const subscription = subscriber.subscribe({
           next: ({ data, errors }) => {
-            const users = data.users
-            const newData = users.reduce((acc, user) => {
-              acc[`user${user.id}`] = user
-              return acc
-            }, {})
+            console.log(operation, 'operation')
+            if (operation.operationName === 'usersQuery') {
+              const users = data.users
+              const newData = users.reduce((acc, user) => {
+                acc[`user${user.id}`] = user
+                return acc
+              }, {})
 
-            cache.writeQuery({
-              query: getQuery(users),
-              data: newData
-            })
+              cache.writeQuery({
+                query: getQuery(users),
+                data: newData
+              })
+            }
             observer.next({
               data,
               errors
@@ -54,5 +56,5 @@ export function createCacheLink(config) {
         };
       });
     }
-  }
+  }()
 }
